@@ -4,7 +4,7 @@ import Books from '../Books/Books';
 
 const Home = () => {
     return (
-        <div>
+        <div className='flex flex-col gap-5'>
             <Banner></Banner>
             <Books></Books>
         </div>

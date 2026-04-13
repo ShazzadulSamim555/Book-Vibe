@@ -1,17 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLoaderData } from "react-router";
 import { getStoredData } from "../../Utility/addToDB";
+import SingleBook from "./SingleBook";
 
 const ReadList = () => {
-  const data=useLoaderData();
-  
-  useEffect(()=>{
-    const getStoredBook= getStoredData();
-    // console.log(getStoredBook);
-    const convert= getStoredBook.map((id)=>parseInt(id));
-    const myReadList= convert.filter(book=> convert.includes(book.bookId));
-    console.log(myReadList);
-  },[data])
+  const data = useLoaderData();
+
+  const [readList, setReadList]= useState([]);
+
+
+  useEffect(() => {
+    const storedBookIds = getStoredData(); // LocalStorage থেকে ID গুলো নিলেন
+    const storedBookIdsInt = storedBookIds.map((id) => parseInt(id)); // সেগুলোকে Integer বানালেন
+    console.log(storedBookIdsInt);
+
+    const myReadList= data.filter((book)=> storedBookIdsInt.includes(book.bookId));
+    setReadList(myReadList);
+    // Loader থেকে আসা 'data' (সব বই) থেকে শুধুমাত্র জমানো ID-র বইগুলো খুঁজে বের করুন
+    // const myReadList = data.filter((book) =>
+    //   storedBookIdsInt.includes(book.bookId),
+    // );
+
+    // console.log(myReadList);
+  }, [data]);
   return (
     <div>
       {/* name of each tab group should be unique */}
@@ -24,7 +35,11 @@ const ReadList = () => {
           defaultChecked
         />
         <div className="tab-content bg-base-100 border-base-300 p-6">
-          Tab content 1
+          <div className="space-y-3">
+            {
+              readList.map((singleBook)=><SingleBook key={singleBook.bookId} singleBook={singleBook}></SingleBook>)
+            }
+          </div>
         </div>
 
         <input
@@ -36,7 +51,6 @@ const ReadList = () => {
         <div className="tab-content bg-base-100 border-base-300 p-6">
           Tab content 2
         </div>
-
       </div>
     </div>
   );

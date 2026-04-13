@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router";
+import { Link, NavLink } from "react-router";
 
 const Navbar = () => {
   return (
@@ -33,9 +33,14 @@ const Navbar = () => {
               </li>
             </Link>
 
-            <Link to='./about'>
+            <Link to="./about">
               <li>
                 <a>About</a>
+              </li>
+            </Link>
+            <Link>
+              <li>
+                <a>Listed Books</a>
               </li>
             </Link>
           </ul>
@@ -44,17 +49,19 @@ const Navbar = () => {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <Link to="./">
-              <li>
-                <a>Home</a>
-              </li>
-            </Link>
+          <li>
+            <NavLink to="./" className={({isActive})=> isActive? "bg-green-300 font-semibold":"bg-transparent"}>Home</NavLink>
+          </li>
 
-            <Link to='./about'>
-              <li>
-                <a>About</a>
-              </li>
-            </Link>
+          <li>
+            <NavLink to="./about" className={({isActive})=> isActive? "bg-green-300 font-semibold":"bg-transparent"}>About</NavLink>
+          </li>
+
+          <li>
+            <NavLink to='readList' className={({isActive})=> isActive? "bg-green-300 font-semibold":"bg-transparent"}>Listed Books</NavLink>
+          </li>
+
+          
         </ul>
       </div>
       <div className="navbar-end">
